@@ -1,11 +1,15 @@
 package com.example.catchthekennykotlin
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -44,6 +48,37 @@ class MainActivity : AppCompatActivity() {
 
 
         hideImages()
+
+        object : CountDownTimer(15600,1000){
+            override fun onTick(millisUntilFinished: Long) {
+                binding.timeText.text = "Time: ${millisUntilFinished/1000}"
+            }
+
+            override fun onFinish() {
+                binding.timeText.text = "Time: 0"
+                handler.removeCallbacks(runnable)
+
+                for(image in imageArray){
+                    image.visibility = View.INVISIBLE
+                }
+
+                val alert = AlertDialog.Builder(this@MainActivity)
+                alert.setTitle("Game Over")
+                alert.setMessage("Restart The Game")
+                alert.setPositiveButton("Yes",DialogInterface.OnClickListener { dialog, which ->
+                    val intentFromMain = intent
+                    finish()
+                    startActivity(intentFromMain)
+                })
+
+                alert.setNegativeButton("No",DialogInterface.OnClickListener { dialog, which ->
+                    Toast.makeText(this@MainActivity,"Game Over!",Toast.LENGTH_LONG).show()
+                })
+                alert.show()
+            }
+
+
+        }.start()
 
     }
 
