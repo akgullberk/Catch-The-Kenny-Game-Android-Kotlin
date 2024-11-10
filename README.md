@@ -1,5 +1,3 @@
-# Medium
-https://medium.com/@berkak_gul51/catch-the-kenny-game-android-kotlin-07459054150c
 # Catch The Kenny
 
 # Description
